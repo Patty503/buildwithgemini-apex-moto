@@ -663,6 +663,85 @@
     color: #fff;
     border-color: var(--accent);
   }
+
+  /* --- A2UI component styles (Card, Column, Row, Text, Divider, List, Image, Icon) --- */
+  .bubble.rich {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+
+  .a2card {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
+    padding: 1.15rem;
+    background: rgba(18, 22, 31, 0.95);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    color: #f8fafc;
+  }
+  .a2card + .a2card, .a2col > .a2card {
+    margin-top: 0.75rem;
+  }
+  .a2col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+  .a2row {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .a2row.between {
+    justify-content: space-between;
+  }
+  .a2text {
+    margin: 0;
+    line-height: 1.5;
+    color: #f8fafc;
+  }
+  .a2text.a2-h1 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.01em;
+  }
+  .a2text.a2-h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ff3344;
+  }
+  .a2text.a2-h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #06b6d4;
+  }
+  .a2text.a2-h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .a2text.a2-caption {
+    font-size: 0.8rem;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+  }
+  .a2divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+  .a2img {
+    max-width: 100%;
+    border-radius: 10px;
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
   </style>
 </head>
 <body>
@@ -735,7 +814,7 @@
         </div>
 
         <form id="chat-form" class="chat-input-bar">
-          <input id="chat-input" type="text" placeholder="Ask ApexMoto about roads, telemetry, physics, or visuals..." autocomplete="off" />
+          <input id="chat-input" type="text" placeholder="Frage auf Deutsch / Ask in English about routes, crew, physics, or visuals..." autocomplete="off" />
           <button type="submit" class="send-btn" style="width:48px; padding:0;">
             <span class="material-symbols-outlined">send</span>
           </button>
@@ -946,6 +1025,131 @@ function showTypingIndicator() {
   return turn;
 }
 
+/* ----------------------------------------------------------------------------
+ * A2UI Mini-Renderer (v0.8 Basic Catalog)
+ * Renders Card / Column / Row / Text / Divider / List / Image / Icon
+ * -------------------------------------------------------------------------- */
+function boundStr(v) {
+  if (v == null) return "";
+  if (typeof v === "string") return v;
+  if (typeof v.literalString === "string") return v.literalString;
+  return "";
+}
+
+function childIds(props) {
+  const ids = [];
+  if (props && typeof props.child === "string") ids.push(props.child);
+  const ch = props && props.children;
+  if (ch && Array.isArray(ch.explicitList)) {
+    for (const c of ch.explicitList) if (typeof c === "string") ids.push(c);
+  }
+  return ids;
+}
+
+function iconName(n) {
+  return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase();
+}
+
+function buildNode(id, comps, seen) {
+  if (!id || seen.has(id)) return null;
+  seen.add(id);
+  const spec = comps[id];
+  if (!spec || typeof spec !== "object") return null;
+  const type = Object.keys(spec)[0];
+  const props = spec[type] || {};
+  const kids = () => childIds(props).map(cid => buildNode(cid, comps, seen)).filter(Boolean);
+
+  switch (type) {
+    case "Card": {
+      const d = el("div", "a2card");
+      kids().forEach(n => d.appendChild(n));
+      return d;
+    }
+    case "Column":
+    case "List": {
+      const horizontal = type === "List" && props.direction === "horizontal";
+      const d = el("div", horizontal ? "a2row" : "a2col");
+      kids().forEach(n => d.appendChild(n));
+      return d;
+    }
+    case "Row": {
+      const d = el("div", "a2row" + (props.distribution === "spaceBetween" ? " between" : ""));
+      kids().forEach(n => d.appendChild(n));
+      return d;
+    }
+    case "Text": {
+      const t = el("div", "a2text");
+      const hint = String(props.usageHint || "body").toLowerCase();
+      if (["h1", "h2", "h3", "h4", "h5", "h6"].includes(hint)) t.classList.add("a2-" + hint);
+      else if (hint === "caption") t.classList.add("a2-caption");
+      t.textContent = boundStr(props.text);
+      return t;
+    }
+    case "Divider":
+      return el("hr", "a2divider");
+    case "Image": {
+      const src = boundStr(props.url || props.src);
+      if (!/^https?:\/\//i.test(src)) return null;
+      const img = el("img", "a2img");
+      img.src = src;
+      img.alt = boundStr(props.alt) || "";
+      return img;
+    }
+    case "Icon": {
+      const s = el("span", "material-symbols-outlined");
+      s.textContent = iconName(boundStr(props.name) || props.name);
+      return s;
+    }
+    default:
+      return null;
+  }
+}
+
+function renderSurface(messages, container) {
+  const comps = {};
+  const roots = [];
+  for (const m of messages) {
+    if (m.beginRendering && typeof m.beginRendering.root === "string") roots.push(m.beginRendering.root);
+    const su = m.surfaceUpdate;
+    if (su && Array.isArray(su.components)) {
+      for (const c of su.components) {
+        if (c && c.id && c.component) comps[c.id] = c.component;
+      }
+    }
+  }
+  let rootIds = roots.filter(r => comps[r]);
+  if (rootIds.length === 0) {
+    const referenced = new Set();
+    for (const id in comps) {
+      const spec = comps[id];
+      childIds(spec[Object.keys(spec)[0]] || {}).forEach(c => referenced.add(c));
+    }
+    rootIds = Object.keys(comps).filter(id => !referenced.has(id));
+  }
+  let drew = false;
+  for (const rid of rootIds) {
+    const node = buildNode(rid, comps, new Set());
+    if (node) {
+      container.appendChild(node);
+      drew = true;
+    }
+  }
+  return drew;
+}
+
+function flattenText(messages) {
+  const out = [];
+  for (const m of messages) {
+    const su = m.surfaceUpdate;
+    if (su && Array.isArray(su.components)) {
+      for (const c of su.components) {
+        if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
+      }
+    }
+  }
+  return out.join("\n").trim();
+}
+
 function cleanNaturalLanguage(text) {
   if (!text) return "";
   let trimmed = text.trim();
@@ -974,14 +1178,28 @@ function cleanNaturalLanguage(text) {
 
 function renderReply(b, parts) {
   b.textContent = "";
-  let fullProse = [];
-  for (const p of parts) {
-    if (p.text) {
-      fullProse.push(cleanNaturalLanguage(p.text));
+  const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => cleanNaturalLanguage(p.text || ""));
+  const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
+
+  const textStr = texts.join("\n\n").trim();
+  if (textStr) {
+    const textNode = el("div", null, textStr);
+    textNode.style.marginBottom = a2ui.length ? "0.85rem" : "0";
+    b.appendChild(textNode);
+  }
+
+  if (a2ui.length) {
+    b.classList.add("rich");
+    const rendered = renderSurface(a2ui, b);
+    if (!rendered && !textStr) {
+      const flat = flattenText(a2ui);
+      b.appendChild(el("div", null, flat || "(Telemetry card received)"));
     }
   }
-  const joined = fullProse.join("\n\n").trim();
-  b.textContent = joined || "ApexMoto AI: Ready to ride. How can I help you navigate or tune your trip?";
+
+  if (!b.childNodes.length) {
+    b.textContent = "ApexMoto AI: Ready to ride. How can I help you navigate or tune your trip?";
+  }
   log.scrollTop = log.scrollHeight;
 }
 
@@ -1020,7 +1238,7 @@ form.addEventListener("submit", (ev) => {
 // Initial Welcome
 window.addEventListener("DOMContentLoaded", () => {
   const b = bubble("agent");
-  b.textContent = "Welcome to ApexMoto. 🏍️\n\nYour high-performance motorcycle intelligence platform is online. Use the navigation bar above to explore Tour Planning, Crew Tracking, Weather & Physics, Gallery, and Blog — or chat with me below to plan routes, compute lean angle physics, and generate Omni videos!";
+  b.textContent = "Willkommen bei ApexMoto! 🏍️\n\nYour high-performance motorcycle intelligence platform is online.\nDu kannst mich auf Deutsch oder Englisch nach Routen, Telemetrie, Freunden, Schräglagen-Physik oder Video-Reels fragen!\n\nBeispiele:\n• 'Wo ist Elena gerade?' / 'Where is Elena?'\n• 'Zeig mir die besten Kurven in Kalifornien'\n• 'Berechne Schräglage bei 50 km/h in einer 50m Kurve'\n• 'Erstelle ein Video von einem Sportmotorrad auf Passstraßen'";
 });
 
 // --- Dynamic Sections Fetchers ---
