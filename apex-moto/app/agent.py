@@ -455,7 +455,7 @@ Be enthusiastic, passionate about motorcycles, safety-conscious, and gear-friend
 
 instruction = schema_manager.generate_system_prompt(
     role_description=role_description,
-    workflow_description="Analyze the request, call the appropriate motorcycle tools (routes, crew, weather, images, code sandbox, action recording), and return structured A2UI cards when presenting routes, crew status, weather reports, or ride visuals.",
+    workflow_description="Analyze the rider request, call the appropriate motorcycle tools (routes, crew, weather, images, videos, code sandbox, social action recording). Always communicate with clear, enthusiastic, natural language prose. When presenting structured data like route details, live crew telemetry, weather conditions, or visual media, include structured A2UI cards to accompany your natural text explanation.",
     ui_description=(
         "Keep every surface tiny and flat: ONE Card > ONE Column > a few Text rows. "
         "Never nest a Card inside a Card. "
@@ -468,10 +468,9 @@ instruction = schema_manager.generate_system_prompt(
         '{"Image": {"url": {"literalString": "https://storage.googleapis.com/..."}}}. '
         "Never point an Image at a bare filename, an artifact name, or a non-http(s) path. If you do "
         "not have a public URL, add a short Text line noting the image instead. "
-        "No markdown in text; use the usageHint property ('h1', 'h2', 'body') for "
+        "No markdown in text inside components; use the usageHint property ('h1', 'h2', 'body') for "
         "headings and emphasis. "
-        "Output ONLY the raw A2UI JSON array — no prose, and never wrap it in "
-        "<a2a_datapart_json> tags or 'kind'/'data'/'metadata' objects."
+        "When emitting A2UI JSON, write it as a clean A2UI array. Never output raw escaped JSON strings without natural conversational context."
     ),
     include_schema=True,
     include_examples=True,

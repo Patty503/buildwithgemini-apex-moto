@@ -1,60 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ApexMoto • High-Performance Motorcycle Concierge</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ApexMoto • High-Performance Motorcycle Intelligence</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 
-<style>
+  <style>
   :root {
-    --accent: #ff3344;
-    --accent-glow: rgba(255, 51, 68, 0.45);
-    --accent-gradient: linear-gradient(135deg, #ff3344 0%, #ff6b3d 100%);
-    --bg-dark: #090b0f;
-    --bg-surface: #131722;
-    --bg-glass: rgba(19, 23, 34, 0.85);
-    --card-bg: rgba(22, 28, 42, 0.9);
+    --bg-base: #0a0c10;
+    --bg-surface: #12161f;
+    --bg-elevated: #1a202c;
+    --card-bg: rgba(22, 28, 39, 0.75);
     --border: rgba(255, 255, 255, 0.08);
-    --border-highlight: rgba(255, 51, 68, 0.35);
-    --text-primary: #f0f4f8;
+    --border-bright: rgba(255, 255, 255, 0.16);
+    --text-primary: #f8fafc;
     --text-secondary: #94a3b8;
     --text-muted: #64748b;
-    --user-bubble: linear-gradient(135deg, #ff3344 0%, #d91b2e 100%);
-    --shadow-main: 0 14px 34px -10px rgba(0, 0, 0, 0.65);
+    --accent: #ff3344;
+    --accent-glow: rgba(255, 51, 68, 0.35);
+    --accent-gradient: linear-gradient(135deg, #ff3344 0%, #ff6b3d 100%);
+    --accent-subtle: rgba(255, 51, 68, 0.12);
+    --cyan-accent: #06b6d4;
+    --green-accent: #10b981;
+    --user-bubble: linear-gradient(135deg, #ff3344 0%, #d91c2e 100%);
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --shadow-main: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  
+
   body {
-    background: var(--bg-dark);
+    background-color: var(--bg-base);
+    background-image: 
+      radial-gradient(circle at 15% 5%, rgba(255, 51, 68, 0.08) 0%, transparent 40%),
+      radial-gradient(circle at 85% 95%, rgba(6, 182, 212, 0.05) 0%, transparent 40%);
     color: var(--text-primary);
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    background-image: 
-      radial-gradient(circle at 10% 15%, rgba(255, 51, 68, 0.14) 0%, transparent 40%),
-      radial-gradient(circle at 90% 85%, rgba(255, 107, 61, 0.1) 0%, transparent 45%),
-      linear-gradient(to bottom, rgba(9, 11, 15, 0.95), rgba(9, 11, 15, 1));
+    overflow-x: hidden;
   }
 
-  /* Header Bar */
+  /* Header */
   header {
-    background: var(--bg-glass);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: rgba(10, 12, 16, 0.85);
+    backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    padding: 0.85rem 1.8rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: sticky;
+    top: 0;
     z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.85rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .brand {
@@ -62,9 +72,10 @@
     align-items: center;
     gap: 0.75rem;
     text-decoration: none;
+    cursor: pointer;
   }
 
-  .brand-logo {
+  .brand-icon {
     width: 38px;
     height: 38px;
     background: var(--accent-gradient);
@@ -72,100 +83,185 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #ffffff;
     box-shadow: 0 0 15px var(--accent-glow);
-    animation: pulseGlow 3s infinite ease-in-out;
   }
 
-  .brand-logo span {
-    font-size: 22px;
-    color: #fff;
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% { box-shadow: 0 0 15px var(--accent-glow); }
-    50% { box-shadow: 0 0 25px rgba(255, 51, 68, 0.7); }
-  }
-
-  .brand-title {
-    font-weight: 800;
+  .brand-text h1 {
     font-size: 1.25rem;
+    font-weight: 800;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #ffffff 40%, #ff8b95 100%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .brand-text h1 span.highlight {
+    background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 
-  .brand-badge {
+  .brand-text h1 span.badge {
     font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    background: rgba(255, 51, 68, 0.15);
-    color: #ff5264;
-    padding: 0.2rem 0.5rem;
-    border-radius: 999px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--accent-subtle);
+    color: var(--accent);
     border: 1px solid rgba(255, 51, 68, 0.3);
+    font-family: var(--font-mono);
   }
 
-  .header-status {
+  /* Navigation Bar */
+  .nav-tabs {
+    display: flex;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: 0.82rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-secondary);
+    gap: 0.45rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
   }
 
-  .status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #10b981;
-    box-shadow: 0 0 8px #10b981;
-    animation: blink 2s infinite ease-in-out;
+  .nav-btn .material-symbols-outlined { font-size: 18px; }
+
+  .nav-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.06);
   }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+  .nav-btn.active {
+    color: #ffffff;
+    background: var(--accent-gradient);
+    box-shadow: 0 0 12px var(--accent-glow);
   }
 
-  /* Dialogue / Chat Stream */
-  #log {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1.5rem 1.25rem;
-    max-width: 880px;
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
+  .swagger-link {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.85rem;
+    border-radius: 8px;
+    background: rgba(6, 182, 212, 0.12);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    color: var(--cyan-accent);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    transition: all 0.2s ease;
+  }
+  .swagger-link:hover {
+    background: rgba(6, 182, 212, 0.2);
+    box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
+  }
+
+  /* Main Container */
+  main {
+    max-width: 1400px;
     width: 100%;
     margin: 0 auto;
+    padding: 1.5rem;
+    flex: 1;
     display: flex;
     flex-direction: column;
+  }
+
+  .tab-pane {
+    display: none;
+    animation: fadeIn 0.3s ease;
+    width: 100%;
+  }
+
+  .tab-pane.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section Headers */
+  .section-header {
+    margin-bottom: 1.5rem;
+  }
+  .section-header h2 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .section-header p {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    margin-top: 0.3rem;
+  }
+
+  /* Chat Pane */
+  .chat-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
     gap: 1.5rem;
+    height: calc(100vh - 160px);
+  }
+
+  @media (max-width: 1024px) {
+    .chat-layout { grid-template-columns: 1fr; }
+    .chat-sidebar { display: none; }
+  }
+
+  .chat-main {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: var(--shadow-main);
+  }
+
+  .chat-log {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
     scroll-behavior: smooth;
   }
 
-  #log::-webkit-scrollbar {
-    width: 6px;
-  }
-  #log::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 3px;
-  }
-
-  /* Dialogue Item Container with Avatar & Meta */
   .dialogue-turn {
     display: flex;
     gap: 0.85rem;
-    align-items: flex-start;
-    animation: fadeInSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    max-width: 100%;
   }
 
   .dialogue-turn.user {
     flex-direction: row-reverse;
-  }
-
-  @keyframes fadeInSlide {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
   }
 
   .dialogue-avatar {
@@ -180,7 +276,7 @@
 
   .dialogue-turn.agent .dialogue-avatar {
     background: var(--accent-gradient);
-    box-shadow: 0 0 12px var(--accent-glow);
+    box-shadow: 0 0 10px var(--accent-glow);
     color: #fff;
   }
 
@@ -193,40 +289,29 @@
   .dialogue-content {
     display: flex;
     flex-direction: column;
-    max-width: 84%;
+    max-width: 82%;
   }
 
-  .dialogue-turn.user .dialogue-content {
-    align-items: flex-end;
-  }
-
-  .dialogue-turn.agent .dialogue-content {
-    align-items: flex-start;
-  }
+  .dialogue-turn.user .dialogue-content { align-items: flex-end; }
+  .dialogue-turn.agent .dialogue-content { align-items: flex-start; }
 
   .dialogue-meta {
     font-size: 0.72rem;
     color: var(--text-muted);
     font-weight: 600;
     margin-bottom: 0.35rem;
-    letter-spacing: 0.02em;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
   }
 
   .bubble {
     display: inline-block;
-    padding: 1rem 1.35rem;
-    border-radius: 18px;
+    padding: 0.9rem 1.2rem;
+    border-radius: 16px;
     background: var(--bg-surface);
     border: 1px solid var(--border);
     color: var(--text-primary);
-    text-align: left;
     line-height: 1.6;
-    font-size: 0.96rem;
+    font-size: 0.94rem;
     white-space: pre-wrap;
-    box-shadow: var(--shadow-main);
   }
 
   .dialogue-turn.user .bubble {
@@ -234,7 +319,6 @@
     color: #ffffff;
     border: none;
     border-top-right-radius: 4px;
-    font-weight: 500;
   }
 
   .dialogue-turn.agent .bubble {
@@ -247,301 +331,458 @@
     background: transparent;
     border: none;
     padding: 0;
-    max-width: 100%;
-    white-space: normal;
-    box-shadow: none;
   }
 
-  /* 3 Clickable Example Prompts Row */
-  .example-prompts-row {
-    max-width: 880px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 0 1.25rem 0.75rem 1.25rem;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+  /* Quick Prompts Bar */
+  .quick-prompts-bar {
+    padding: 0.75rem 1.25rem 0.25rem;
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
   }
 
-  .example-prompt-btn {
-    background: rgba(255, 255, 255, 0.035);
+  .prompt-pill {
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
-    color: var(--text-primary);
-    padding: 0.75rem 0.9rem;
-    border-radius: 14px;
+    border-radius: 24px;
+    padding: 0.4rem 0.85rem;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    text-align: left;
-    backdrop-filter: blur(10px);
-  }
-
-  .example-prompt-btn .prompt-badge {
+    white-space: nowrap;
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: #ff5264;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    gap: 0.4rem;
+    transition: all 0.2s ease;
   }
 
-  .example-prompt-btn .prompt-text {
-    font-size: 0.81rem;
-    color: var(--text-secondary);
-    line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .example-prompt-btn:hover {
-    background: rgba(255, 51, 68, 0.12);
-    border-color: var(--border-highlight);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 18px rgba(255, 51, 68, 0.25);
-  }
-
-  .example-prompt-btn:hover .prompt-text {
+  .prompt-pill:hover {
     color: #fff;
+    background: var(--accent-subtle);
+    border-color: rgba(255, 51, 68, 0.4);
   }
 
-  @media (max-width: 680px) {
-    .example-prompts-row {
-      grid-template-columns: 1fr;
-      gap: 0.5rem;
-    }
-  }
-
-  /* Input Form */
-  form {
+  /* Chat Input */
+  .chat-input-bar {
+    padding: 1rem 1.25rem;
+    background: rgba(10, 12, 16, 0.6);
+    border-top: 1px solid var(--border);
     display: flex;
     gap: 0.75rem;
-    padding: 1.1rem 1.5rem;
-    background: var(--bg-glass);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-top: 1px solid var(--border);
-    max-width: 880px;
-    width: 100%;
-    margin: 0 auto;
-    border-radius: 16px 16px 0 0;
   }
 
-  .input-wrapper {
+  .chat-input-bar input {
     flex: 1;
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.95rem 1.25rem;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--border);
     border-radius: 12px;
-    font-size: 0.95rem;
+    padding: 0.85rem 1.1rem;
     color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
     outline: none;
-    transition: all 0.25s ease;
+    transition: all 0.2s ease;
   }
 
-  input:focus {
+  .chat-input-bar input:focus {
     border-color: var(--accent);
-    background: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 0 18px rgba(255, 51, 68, 0.3);
+    box-shadow: 0 0 12px var(--accent-glow);
   }
 
-  input::placeholder {
-    color: var(--text-muted);
-  }
-
-  button.send-btn {
-    padding: 0.85rem 1.4rem;
+  .send-btn {
+    background: var(--accent-gradient);
     border: none;
     border-radius: 12px;
-    background: var(--accent-gradient);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: #fff;
-    font-weight: 700;
-    font-size: 0.95rem;
     cursor: pointer;
-    display: inline-flex;
+    box-shadow: 0 0 15px var(--accent-glow);
+    transition: transform 0.15s ease;
+  }
+
+  .send-btn:hover { transform: scale(1.04); }
+
+  /* Chat Sidebar */
+  .chat-sidebar {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    overflow-y: auto;
+  }
+
+  .sidebar-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1rem;
+  }
+
+  .sidebar-card h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    display: flex;
     align-items: center;
     gap: 0.4rem;
-    box-shadow: 0 4px 15px rgba(255, 51, 68, 0.35);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  button.send-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 51, 68, 0.55);
+  /* Grid Layouts for Sections */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
   }
 
-  button.send-btn:active {
-    transform: translateY(0);
-  }
-
-  /* --- A2UI Card Styling --- */
-  .a2card {
-    background: linear-gradient(145deg, rgba(26, 32, 46, 0.9) 0%, rgba(18, 22, 31, 0.95) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .feature-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 1.4rem;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-    margin-top: 0.5rem;
-    position: relative;
-    overflow: hidden;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: all 0.2s ease;
   }
 
-  .a2card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 4px;
-    height: 100%;
-    background: var(--accent-gradient);
+  .feature-card:hover {
+    border-color: var(--border-bright);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-main);
   }
 
-  .a2card + .a2card, .a2col > .a2card { margin-top: 0.85rem; }
-  .a2col { display: flex; flex-direction: column; gap: 0.6rem; }
-  .a2row { display: flex; flex-direction: row; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
-  .a2row.between { justify-content: space-between; }
-  
-  .a2text { margin: 0; line-height: 1.5; color: var(--text-primary); }
-  .a2text.a2-h1 { font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em; color: #fff; }
-  .a2text.a2-h2 { font-size: 1.25rem; font-weight: 700; color: #ff6b3d; letter-spacing: -0.01em; }
-  .a2text.a2-h3 { font-size: 1.05rem; font-weight: 600; color: #f87171; }
-  .a2text.a2-h4 { font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); }
-  .a2text.a2-caption { font-size: 0.82rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; }
-  .a2text.a2-body { font-size: 0.92rem; color: #cbd5e1; }
-  
-  .a2divider { border: none; border-top: 1px solid rgba(255, 255, 255, 0.08); margin: 0.6rem 0; width: 100%; }
-  
-  .a2img {
-    max-width: 100%;
+  .feature-card img, .feature-card video {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
     border-radius: 12px;
-    display: block;
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    transition: transform 0.3s ease;
-  }
-  .a2img:hover {
-    transform: scale(1.015);
+    border: 1px solid var(--border);
   }
 
-  .material-symbols-outlined {
-    font-family: 'Material Symbols Outlined';
-    font-size: 1.3rem;
-    line-height: 1;
-    vertical-align: middle;
+  .tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+  }
+
+  .tag.accent {
+    background: var(--accent-subtle);
     color: var(--accent);
+    border: 1px solid rgba(255, 51, 68, 0.3);
   }
 
-  /* Typing Indicator Animation */
-  .typing-indicator {
-    display: inline-flex;
+  /* Physics Calculator Form */
+  .calc-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 1.5rem;
+    max-width: 650px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+  }
+
+  .form-group input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 0.85rem;
+    color: #fff;
+    font-family: var(--font-mono);
+  }
+
+  .calc-result {
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: 12px;
+    padding: 1.1rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  /* Followers List */
+  .follower-row {
+    display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 6px 10px;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
   }
-  .typing-dot {
-    width: 6px;
-    height: 6px;
-    background: var(--text-muted);
+  .follower-profile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .follower-profile img {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    animation: typingBounce 1.4s infinite ease-in-out both;
+    object-fit: cover;
   }
-  .typing-dot:nth-child(1) { animation-delay: -0.32s; }
-  .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-  @keyframes typingBounce {
-    0%, 80%, 100% { transform: scale(0); opacity: 0.3; }
-    40% { transform: scale(1); opacity: 1; background: var(--accent); }
+  .btn-follow {
+    padding: 0.45rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    transition: all 0.2s;
   }
-</style>
+  .btn-follow.active {
+    background: var(--accent-gradient);
+    border-color: transparent;
+  }
+  </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">
-    <div class="brand-logo">
-      <span class="material-symbols-outlined">two_wheeler</span>
+  <div class="header-inner">
+    <div class="brand" onclick="switchTab('chat')">
+      <div class="brand-icon">
+        <span class="material-symbols-outlined">two_wheeler</span>
+      </div>
+      <div class="brand-text">
+        <h1>Apex<span class="highlight">Moto</span> <span class="badge">PRO v1.2</span></h1>
+      </div>
     </div>
-    <span class="brand-title">ApexMoto</span>
-    <span class="brand-badge">PRO v1.0</span>
-  </div>
-  <div class="header-status">
-    <div class="status-dot"></div>
-    <span>Engine Online</span>
+
+    <!-- Navigation Tabs for All Sections -->
+    <nav class="nav-tabs">
+      <button class="nav-btn active" onclick="switchTab('chat')">
+        <span class="material-symbols-outlined">chat</span> Agent Chat
+      </button>
+      <button class="nav-btn" onclick="switchTab('routes')">
+        <span class="material-symbols-outlined">map</span> Tour Planning
+      </button>
+      <button class="nav-btn" onclick="switchTab('crew')">
+        <span class="material-symbols-outlined">radar</span> Crew Tracking
+      </button>
+      <button class="nav-btn" onclick="switchTab('physics')">
+        <span class="material-symbols-outlined">speed</span> Weather & Physics
+      </button>
+      <button class="nav-btn" onclick="switchTab('gallery')">
+        <span class="material-symbols-outlined">perm_media</span> Gallery
+      </button>
+      <button class="nav-btn" onclick="switchTab('blog')">
+        <span class="material-symbols-outlined">menu_book</span> Blog
+      </button>
+      <button class="nav-btn" onclick="switchTab('followers')">
+        <span class="material-symbols-outlined">group</span> Followers
+      </button>
+    </nav>
+
+    <div class="header-actions">
+      <a href="/docs" target="_blank" class="swagger-link">
+        <span class="material-symbols-outlined">api</span> Swagger UI
+      </a>
+    </div>
   </div>
 </header>
 
-<div id="log"></div>
+<main>
+  <!-- TAB 1: AGENT CHAT -->
+  <section id="tab-chat" class="tab-pane active">
+    <div class="chat-layout">
+      <div class="chat-main">
+        <div id="chat-log" class="chat-log"></div>
+        
+        <!-- Clickable Example Prompts -->
+        <div class="quick-prompts-bar">
+          <button class="prompt-pill" onclick="sendQuick('Show me best CA twisties with twistiness > 8')">
+            <span class="material-symbols-outlined">alt_route</span> California Twisties > 8
+          </button>
+          <button class="prompt-pill" onclick="sendQuick('Where are Marcus and Elena riding right now?')">
+            <span class="material-symbols-outlined">near_me</span> Live Crew Radar
+          </button>
+          <button class="prompt-pill" onclick="sendQuick('Calculate 45mph lean angle on 150ft turn and weather')">
+            <span class="material-symbols-outlined">calculate</span> Lean Angle Physics & Grip
+          </button>
+          <button class="prompt-pill" onclick="sendQuick('Generate a scenic video of a sport motorcycle on canyon curves')">
+            <span class="material-symbols-outlined">videocam</span> Generate Omni Video
+          </button>
+        </div>
 
-<div class="example-prompts-row">
-  <button type="button" class="example-prompt-btn" onclick="sendQuick('Show me the best twisty motorcycle routes in California with a twistiness rating above 8')">
-    <div class="prompt-badge">
-      <span class="material-symbols-outlined" style="font-size:16px;">route</span> Route Finder
+        <form id="chat-form" class="chat-input-bar">
+          <input id="chat-input" type="text" placeholder="Ask ApexMoto about roads, telemetry, physics, or visuals..." autocomplete="off" />
+          <button type="submit" class="send-btn">
+            <span class="material-symbols-outlined">send</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Live Telemetry Status Sidebar -->
+      <aside class="chat-sidebar">
+        <div class="sidebar-card">
+          <h3><span class="material-symbols-outlined">memory</span> Memory Bank</h3>
+          <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5;">
+            Vertex AI Memory Bank active. Cross-session riding preferences, bike specs, and social actions persist automatically.
+          </p>
+        </div>
+        <div class="sidebar-card">
+          <h3><span class="material-symbols-outlined">cloud_sync</span> Cloud Services</h3>
+          <div style="font-size:0.8rem; color:var(--text-secondary); display:flex; flex-direction:column; gap:0.4rem;">
+            <div>• Model: <b>gemini-3.6-flash</b></div>
+            <div>• Omni Video: <b>gemini-omni-flash-preview</b></div>
+            <div>• Database: <b>Cloud Firestore</b></div>
+            <div>• Sandbox: <b>Agent Engine Code Sandbox</b></div>
+            <div>• Protocol: <b>A2A + A2UI v0.8</b></div>
+          </div>
+        </div>
+      </aside>
     </div>
-    <div class="prompt-text">&ldquo;Show me best CA twisties with twistiness &gt; 8&rdquo;</div>
-  </button>
+  </section>
 
-  <button type="button" class="example-prompt-btn" onclick="sendQuick('Where are Marcus and Elena riding right now? Check their road and telemetry.')">
-    <div class="prompt-badge">
-      <span class="material-symbols-outlined" style="font-size:16px;">groups</span> Crew Radar
+  <!-- TAB 2: TOUR PLANNING -->
+  <section id="tab-routes" class="tab-pane">
+    <div class="section-header">
+      <h2><span class="material-symbols-outlined" style="color:var(--accent);">map</span> Tour Planning & Route Catalog</h2>
+      <p>Curated motorcycle twisties scored for curve density, surface condition, and elevation gain.</p>
     </div>
-    <div class="prompt-text">&ldquo;Where are Marcus &amp; Elena riding right now?&rdquo;</div>
-  </button>
+    <div id="routes-grid" class="card-grid"></div>
+  </section>
 
-  <button type="button" class="example-prompt-btn" onclick="sendQuick('Calculate the lean angle needed for a 45 mph corner on a 150 ft radius turn, and check current weather on Mulholland')">
-    <div class="prompt-badge">
-      <span class="material-symbols-outlined" style="font-size:16px;">speed</span> Physics &amp; Weather
+  <!-- TAB 3: CREW TRACKING -->
+  <section id="tab-crew" class="tab-pane">
+    <div class="section-header">
+      <h2><span class="material-symbols-outlined" style="color:var(--green-accent);">radar</span> Live Convoy & Crew Radar</h2>
+      <p>Real-time telemetry, speeds, battery reserves, and current mountain corridors.</p>
     </div>
-    <div class="prompt-text">&ldquo;Calculate 45mph lean angle on 150ft turn &amp; weather&rdquo;</div>
-  </button>
-</div>
+    <div id="crew-grid" class="card-grid"></div>
+  </section>
 
-<form id="form">
-  <div class="input-wrapper">
-    <input id="input" placeholder="Ask ApexMoto about twisty roads, crew status, weather, or bike telemetry…" autocomplete="off" autofocus>
-  </div>
-  <button class="send-btn">
-    <span>Send</span>
-    <span class="material-symbols-outlined" style="font-size: 18px; color: #fff;">arrow_upward</span>
-  </button>
-</form>
+  <!-- TAB 4: WEATHER & PHYSICS -->
+  <section id="tab-physics" class="tab-pane">
+    <div class="section-header">
+      <h2><span class="material-symbols-outlined" style="color:var(--cyan-accent);">speed</span> Lean Angle Physics & Weather Advisory</h2>
+      <p>Remote Agent Engine Code Sandbox calculations: &theta; = arctan(v&sup2; / (r &middot; g)).</p>
+    </div>
+    <div class="calc-box">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Target Road</label>
+          <input id="calc-road" type="text" value="Mulholland Highway Snake" />
+        </div>
+        <div class="form-group">
+          <label>Speed (mph)</label>
+          <input id="calc-speed" type="number" value="45" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Corner Radius (feet)</label>
+        <input id="calc-radius" type="number" value="150" />
+      </div>
+      <button class="send-btn" style="width:100%; border-radius:8px; font-weight:700;" onclick="computePhysics()">
+        Compute Telemetry & Pavement Grip
+      </button>
+      <div id="physics-result" class="calc-result" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- TAB 5: GALLERY -->
+  <section id="tab-gallery" class="tab-pane">
+    <div class="section-header">
+      <h2><span class="material-symbols-outlined" style="color:var(--accent);">perm_media</span> Ride Visuals & Omni Video Gallery</h2>
+      <p>High-resolution posters and cinematic drone reels generated with Gemini and Google Omni.</p>
+    </div>
+    <div id="gallery-grid" class="card-grid"></div>
+  </section>
+
+  <!-- TAB 6: BLOG -->
+  <section id="tab-blog" class="tab-pane">
+    <div class="section-header">
+      <h2><span class="material-symbols-outlined" style="color:#f59e0b;">menu_book</span> Apex Stories & Engineering Blog</h2>
+      <p>Riding technique, tire compound science, and high-altitude mountain dispatches.</p>
+    </div>
+    <div id="blog-grid" class="card-grid"></div>
+  </section>
+
+  <!-- TAB 7: FOLLOWERS -->
+  <section id="tab-followers" class="tab-pane">
+    <div class="section-header">
+      <h2><span class="material-symbols-outlined" style="color:var(--cyan-accent);">group</span> Rider Network & Followers</h2>
+      <p>Connect with canyon carvers and trackday companions.</p>
+    </div>
+    <div id="followers-list" style="display:flex; flex-direction:column; gap:0.75rem; max-width:650px;"></div>
+  </section>
+</main>
 
 <script>
-const log = document.getElementById("log");
-const form = document.getElementById("form");
-const input = document.getElementById("input");
+// Tab Switching
+function switchTab(tabId) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  
+  const targetPane = document.getElementById(`tab-${tabId}`);
+  if (targetPane) targetPane.classList.add('active');
 
-function el(tag, cls, text) { 
-  const e = document.createElement(tag); 
-  if (cls) e.className = cls; 
-  if (text != null) e.textContent = text; 
-  return e; 
+  const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+  if (btn) btn.classList.add('active');
+
+  if (tabId === 'routes') loadRoutes();
+  if (tabId === 'crew') loadCrew();
+  if (tabId === 'gallery') loadGallery();
+  if (tabId === 'blog') loadBlog();
+  if (tabId === 'followers') loadFollowers();
+}
+
+// Chat Functionality
+const log = document.getElementById("chat-log");
+const form = document.getElementById("chat-form");
+const input = document.getElementById("chat-input");
+
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined && text !== null) node.textContent = text;
+  return node;
 }
 
 function bubble(who) {
-  const turn = el("div", "dialogue-turn " + who);
-  
+  const turn = el("div", `dialogue-turn ${who}`);
   const avatar = el("div", "dialogue-avatar");
   const icon = el("span", "material-symbols-outlined");
   icon.textContent = who === "agent" ? "smart_toy" : "person";
-  if (who === "agent") icon.style.color = "#ffffff";
   avatar.appendChild(icon);
   turn.appendChild(avatar);
 
   const content = el("div", "dialogue-content");
-  
   const meta = el("div", "dialogue-meta");
   meta.textContent = who === "agent" ? "ApexMoto AI" : "Rider";
   content.appendChild(meta);
@@ -550,32 +791,26 @@ function bubble(who) {
   content.appendChild(b);
   turn.appendChild(content);
 
-  log.appendChild(turn); 
+  log.appendChild(turn);
   log.scrollTop = log.scrollHeight;
   return b;
 }
 
 function showTypingIndicator() {
   const turn = el("div", "dialogue-turn agent typing");
-  
   const avatar = el("div", "dialogue-avatar");
   const icon = el("span", "material-symbols-outlined");
   icon.textContent = "smart_toy";
-  icon.style.color = "#ffffff";
   avatar.appendChild(icon);
   turn.appendChild(avatar);
 
   const content = el("div", "dialogue-content");
   const meta = el("div", "dialogue-meta");
-  meta.textContent = "ApexMoto AI • Telemetry Computing...";
+  meta.textContent = "ApexMoto AI • Computing...";
   content.appendChild(meta);
 
   const b = el("div", "bubble");
-  const ind = el("div", "typing-indicator");
-  ind.appendChild(el("div", "typing-dot"));
-  ind.appendChild(el("div", "typing-dot"));
-  ind.appendChild(el("div", "typing-dot"));
-  b.appendChild(ind);
+  b.textContent = "Analyzing motorcycle telemetry and database...";
   content.appendChild(b);
   turn.appendChild(content);
 
@@ -584,154 +819,42 @@ function showTypingIndicator() {
   return turn;
 }
 
-// Initial welcome message from ApexMoto
-window.addEventListener("DOMContentLoaded", () => {
-  const b = bubble("agent");
-  b.textContent = "Welcome to ApexMoto. 🏍️\n\nYour high-performance motorcycle route concierge and riding assistant is online. Explore iconic twisty passes, track crew telemetry, check mountain tarmac weather, compute lean angle physics in the sandbox, or generate route artwork.\n\nChoose a quick action above or enter your ride destination:";
-});
-
-/* ----------------------------------------------------------------------------
- * A2UI mini-renderer (v0.8 Basic Catalog subset).
- * Renders Card / Column / Row / Text / Divider / List / Image / Icon.
- * Anything else falls back to plain text (see renderReply).
- * -------------------------------------------------------------------------- */
-
-function boundStr(v) {
-  if (v == null) return "";
-  if (typeof v === "string") return v;
-  if (typeof v.literalString === "string") return v.literalString;
-  return "";
-}
-
-function childIds(props) {
-  const ids = [];
-  if (props && typeof props.child === "string") ids.push(props.child);
-  const ch = props && props.children;
-  if (ch && Array.isArray(ch.explicitList)) for (const c of ch.explicitList) if (typeof c === "string") ids.push(c);
-  return ids;
-}
-
-function iconName(n) { 
-  return String(n || "").replace(/([a-z0-9])([A-Z])/g, "$1_$2").replace(/\s+/g, "_").toLowerCase(); 
-}
-
-function buildNode(id, comps, seen) {
-  if (!id || seen.has(id)) return null;
-  seen.add(id);
-  const spec = comps[id];
-  if (!spec || typeof spec !== "object") return null;
-  const type = Object.keys(spec)[0];
-  const props = spec[type] || {};
-  const kids = () => childIds(props).map(cid => buildNode(cid, comps, seen)).filter(Boolean);
-
-  switch (type) {
-    case "Card": {
-      const e = el("div", "a2card");
-      kids().forEach(k => e.appendChild(k));
-      return e;
-    }
-    case "Column": {
-      const e = el("div", "a2col");
-      kids().forEach(k => e.appendChild(k));
-      return e;
-    }
-    case "Row": {
-      const e = el("div", "a2row" + (props.distribution === "spaceBetween" ? " between" : ""));
-      kids().forEach(k => e.appendChild(k));
-      return e;
-    }
-    case "Text": {
-      const hint = String(props.usageHint || "body").toLowerCase();
-      const tag = hint === "h1" ? "h1" : hint === "h2" ? "h2" : hint === "h3" ? "h3" : hint === "h4" ? "h4" : "p";
-      return el(tag, "a2text a2-" + hint, boundStr(props.text));
-    }
-    case "Divider":
-      return el("hr", "a2divider");
-    case "List": {
-      const e = el("div", "a2col");
-      kids().forEach(k => e.appendChild(k));
-      return e;
-    }
-    case "Image": {
-      const url = boundStr(props.url);
-      if (/^https?:\/\//i.test(url)) {
-        const img = el("img", "a2img");
-        img.src = url;
-        img.alt = boundStr(props.accessibilityLabel) || "Generated ride visual";
-        img.loading = "lazy";
-        return img;
+function cleanNaturalLanguage(text) {
+  if (!text) return "";
+  let trimmed = text.trim();
+  if ((trimmed.startsWith("{") && trimmed.endsWith("}")) || (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
+    try {
+      const data = JSON.parse(trimmed);
+      let extracted = [];
+      function recurse(obj) {
+        if (typeof obj === 'object' && obj !== null) {
+          if (obj.literalString) {
+            extracted.push(obj.literalString);
+          }
+          for (const k in obj) {
+            if (k !== 'literalString') recurse(obj[k]);
+          }
+        } else if (Array.isArray(obj)) {
+          obj.forEach(recurse);
+        }
       }
-      return el("p", "a2text a2-caption", "(Image stored in Cloud Storage)");
-    }
-    case "Icon": {
-      const name = iconName(boundStr(props.name));
-      const icon = el("span", "material-symbols-outlined", name);
-      icon.title = name;
-      return icon;
-    }
-    default:
-      return null;
+      recurse(data);
+      if (extracted.length) return extracted.join("\n\n");
+    } catch (e) {}
   }
-}
-
-function renderSurface(messages, container) {
-  const comps = {};
-  const roots = [];
-  for (const m of messages) {
-    const br = m.beginRendering;
-    if (br && typeof br.root === "string") roots.push(br.root);
-    const su = m.surfaceUpdate;
-    if (su && Array.isArray(su.components)) {
-      for (const c of su.components) {
-        if (c && typeof c.id === "string" && c.component) comps[c.id] = c.component;
-      }
-    }
-  }
-  let rootIds = roots.filter(r => r in comps);
-  if (!rootIds.length) {
-    const referenced = new Set();
-    for (const id in comps) { 
-      const spec = comps[id]; 
-      childIds(spec[Object.keys(spec)[0]] || {}).forEach(c => referenced.add(c)); 
-    }
-    rootIds = Object.keys(comps).filter(id => !referenced.has(id));
-  }
-  let drew = false;
-  for (const rid of rootIds) { 
-    const node = buildNode(rid, comps, new Set()); 
-    if (node) { container.appendChild(node); drew = true; } 
-  }
-  return drew;
-}
-
-function flattenText(messages) {
-  const out = [];
-  for (const m of messages) {
-    const su = m.surfaceUpdate;
-    if (su && Array.isArray(su.components)) {
-      for (const c of su.components) {
-        if (c && c.component && c.component.Text) out.push(boundStr(c.component.Text.text));
-      }
-    }
-  }
-  return out.join("\n").trim();
+  return text;
 }
 
 function renderReply(b, parts) {
   b.textContent = "";
-  const texts = parts.filter(p => p && (p.kind === "text" || (!p.kind && p.text))).map(p => p.text || "");
-  const a2ui = parts.filter(p => p && p.kind === "a2ui" && p.data).map(p => p.data);
-
-  const textStr = texts.join("\n").trim();
-  if (textStr) b.appendChild(el("div", null, textStr));
-
-  if (a2ui.length) {
-    b.classList.add("rich");
-    if (!renderSurface(a2ui, b)) {
-      b.appendChild(el("div", null, flattenText(a2ui) || "(no card content)"));
+  let fullProse = [];
+  for (const p of parts) {
+    if (p.text) {
+      fullProse.push(cleanNaturalLanguage(p.text));
     }
   }
-  if (!b.childNodes.length) b.textContent = "(no response)";
+  const joined = fullProse.join("\n\n").trim();
+  b.textContent = joined || "ApexMoto AI: Ready to ride. How can I help you navigate or tune your trip?";
   log.scrollTop = log.scrollHeight;
 }
 
@@ -739,17 +862,14 @@ async function handleSendMessage(text) {
   bubble("user").textContent = text;
   const typingNode = showTypingIndicator();
   try {
-    const res = await fetch("/chat", { 
-      method: "POST", 
-      headers: { "Content-Type": "application/json" }, 
-      body: JSON.stringify({ message: text }) 
+    const res = await fetch("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: text })
     });
-    const raw = await res.text();
+    const data = await res.json();
     typingNode.remove();
     const b = bubble("agent");
-    let data;
-    try { data = JSON.parse(raw); }
-    catch { throw new Error(`Server error: ${raw.slice(0, 200)}`); }
     renderReply(b, data.parts || []);
   } catch (e) {
     typingNode.remove();
@@ -769,6 +889,174 @@ form.addEventListener("submit", (ev) => {
   input.value = "";
   handleSendMessage(text);
 });
+
+// Initial Welcome
+window.addEventListener("DOMContentLoaded", () => {
+  const b = bubble("agent");
+  b.textContent = "Welcome to ApexMoto. 🏍️\n\nYour high-performance motorcycle intelligence platform is online. Use the navigation bar above to explore Tour Planning, Crew Tracking, Weather & Physics, Gallery, and Blog — or chat with me below to plan routes, compute lean angle physics, and generate Omni videos!";
+});
+
+// --- Dynamic Sections Fetchers ---
+
+async function loadRoutes() {
+  const grid = document.getElementById("routes-grid");
+  grid.innerHTML = "Loading routes...";
+  const res = await fetch("/api/routes");
+  const data = await res.json();
+  grid.innerHTML = "";
+  data.forEach(r => {
+    const card = el("div", "feature-card");
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <h3 style="font-size:1.1rem; font-weight:700;">${r.name}</h3>
+        <span class="tag accent">Twistiness: ${r.twistiness_rating}/10</span>
+      </div>
+      <div style="font-size:0.82rem; color:var(--text-muted); font-family:var(--font-mono);">${r.region} • ${r.distance_miles} miles</div>
+      <p style="font-size:0.9rem; color:var(--text-secondary);">${r.highlight}</p>
+      <div style="font-size:0.8rem; color:var(--text-muted);">
+        <b>Pavement:</b> ${r.surface_condition}<br/>
+        <b>Elevation:</b> +${r.elevation_gain_ft} ft | <b>Bikes:</b> ${r.recommended_bike_type}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function loadCrew() {
+  const grid = document.getElementById("crew-grid");
+  grid.innerHTML = "Querying live telemetry...";
+  const res = await fetch("/api/crew");
+  const data = await res.json();
+  grid.innerHTML = "";
+  data.forEach(c => {
+    const card = el("div", "feature-card");
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h3 style="font-size:1.05rem; font-weight:700;">${c.name}</h3>
+        <span class="tag" style="background:rgba(16,185,129,0.15); color:var(--green-accent);">${c.status}</span>
+      </div>
+      <div style="font-size:0.82rem; color:var(--text-secondary); font-family:var(--font-mono);">${c.bike}</div>
+      <div style="font-size:0.88rem; margin:0.4rem 0;">📍 <b>${c.current_location}</b></div>
+      <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">
+        <span>Speed: <b>${c.speed_mph} mph</b></span>
+        <span>Battery: <b>${c.battery_pct}%</b></span>
+        <span>Heading: <b>${c.heading}</b></span>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function computePhysics() {
+  const road = document.getElementById("calc-road").value;
+  const speed = document.getElementById("calc-speed").value;
+  const radius = document.getElementById("calc-radius").value;
+  const out = document.getElementById("physics-result");
+  out.style.display = "block";
+  out.innerHTML = "Computing lean angle physics in sandbox...";
+  
+  const res = await fetch(`/api/weather-physics?road=${encodeURIComponent(road)}&speed_mph=${speed}&radius_ft=${radius}`);
+  const d = await res.json();
+  out.innerHTML = `
+    <div style="color:var(--cyan-accent); font-weight:700; margin-bottom:0.4rem;">🏁 Physics Sandbox Result:</div>
+    <div>${d.safety_advisory}</div>
+    <div style="margin-top:0.6rem; font-size:0.84rem; color:var(--text-secondary);">
+      Temperature: <b>${d.temperature_f}°F</b> | Wind: <b>${d.wind_mph} mph</b> | Pavement: <b>${d.pavement_condition}</b>
+    </div>
+  `;
+}
+
+async function loadGallery() {
+  const grid = document.getElementById("gallery-grid");
+  grid.innerHTML = "Loading gallery...";
+  const res = await fetch("/api/gallery");
+  const data = await res.json();
+  grid.innerHTML = "";
+  data.forEach(item => {
+    const card = el("div", "feature-card");
+    if (item.type === 'video') {
+      card.innerHTML = `
+        <video controls src="${item.url}" poster="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop&q=80"></video>
+        <h4 style="font-size:0.95rem; font-weight:700;">${item.title}</h4>
+        <p style="font-size:0.82rem; color:var(--text-secondary);">${item.caption}</p>
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+          <span>By ${item.creator}</span>
+          <span>❤️ ${item.likes} likes</span>
+        </div>
+      `;
+    } else {
+      card.innerHTML = `
+        <img src="${item.url}" alt="${item.title}" />
+        <h4 style="font-size:0.95rem; font-weight:700;">${item.title}</h4>
+        <p style="font-size:0.82rem; color:var(--text-secondary);">${item.caption}</p>
+        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+          <span>By ${item.creator}</span>
+          <span>❤️ ${item.likes} likes</span>
+        </div>
+      `;
+    }
+    grid.appendChild(card);
+  });
+}
+
+async function loadBlog() {
+  const grid = document.getElementById("blog-grid");
+  grid.innerHTML = "Loading blog articles...";
+  const res = await fetch("/api/blog");
+  const data = await res.json();
+  grid.innerHTML = "";
+  data.forEach(b => {
+    const card = el("div", "feature-card");
+    card.innerHTML = `
+      <img src="${b.image_url}" alt="${b.title}" />
+      <div style="display:flex; gap:0.4rem;">
+        ${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+      </div>
+      <h3 style="font-size:1.05rem; font-weight:700;">${b.title}</h3>
+      <p style="font-size:0.88rem; color:var(--text-secondary);">${b.summary}</p>
+      <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono); margin-top:auto;">
+        By ${b.author} • ${b.date} • ${b.read_time}
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+async function loadFollowers() {
+  const list = document.getElementById("followers-list");
+  list.innerHTML = "Loading rider network...";
+  const res = await fetch("/api/followers");
+  const data = await res.json();
+  list.innerHTML = "";
+  data.forEach(f => {
+    const row = el("div", "follower-row");
+    row.innerHTML = `
+      <div class="follower-profile">
+        <img src="${f.avatar_url}" alt="${f.username}" />
+        <div>
+          <div style="font-weight:700; font-size:0.95rem;">${f.username} <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">${f.handle}</span></div>
+          <div style="font-size:0.8rem; color:var(--text-secondary);">${f.bike} • ${f.riding_style}</div>
+        </div>
+      </div>
+      <button class="btn-follow ${f.is_following ? 'active' : ''}" onclick="toggleFollow('${f.id}', this)">
+        ${f.is_following ? 'Following' : 'Follow'}
+      </button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+async function toggleFollow(id, btn) {
+  const res = await fetch(`/api/followers/${id}/toggle`, { method: "POST" });
+  const d = await res.json();
+  if (d.is_following) {
+    btn.classList.add('active');
+    btn.textContent = 'Following';
+  } else {
+    btn.classList.remove('active');
+    btn.textContent = 'Follow';
+  }
+}
 </script>
 </body>
 </html>
