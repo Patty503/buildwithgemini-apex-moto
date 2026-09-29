@@ -35,6 +35,27 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* Smooth, elegant modern custom scrollbars */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    transition: background 0.2s ease;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 51, 68, 0.5);
+  }
+
   body {
     background-color: var(--bg-base);
     background-image: 
@@ -65,6 +86,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   .brand {
@@ -115,18 +138,19 @@
   /* Navigation Bar */
   .nav-tabs {
     display: flex;
-    gap: 0.4rem;
+    gap: 0.35rem;
     background: rgba(255, 255, 255, 0.04);
     padding: 4px;
     border-radius: 12px;
     border: 1px solid var(--border);
+    overflow-x: auto;
   }
 
   .nav-btn {
     background: transparent;
     border: none;
     color: var(--text-secondary);
-    padding: 0.5rem 0.9rem;
+    padding: 0.5rem 0.85rem;
     border-radius: 8px;
     font-family: var(--font-sans);
     font-size: 0.82rem;
@@ -136,6 +160,7 @@
     gap: 0.45rem;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
   }
 
   .nav-btn .material-symbols-outlined { font-size: 18px; }
@@ -190,7 +215,7 @@
 
   .tab-pane {
     display: none;
-    animation: fadeIn 0.3s ease;
+    animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     width: 100%;
   }
 
@@ -206,6 +231,11 @@
   /* Section Headers */
   .section-header {
     margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
   .section-header h2 {
     font-size: 1.6rem;
@@ -219,6 +249,30 @@
     color: var(--text-secondary);
     font-size: 0.92rem;
     margin-top: 0.3rem;
+  }
+
+  /* Filters & Controls */
+  .filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.5rem 0.85rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+  .filter-bar input, .filter-bar select {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.4rem 0.65rem;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    outline: none;
+  }
+  .filter-bar input:focus, .filter-bar select:focus {
+    border-color: var(--accent);
   }
 
   /* Chat Pane */
@@ -327,12 +381,6 @@
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .bubble.rich {
-    background: transparent;
-    border: none;
-    padding: 0;
-  }
-
   /* Quick Prompts Bar */
   .quick-prompts-bar {
     padding: 0.75rem 1.25rem 0.25rem;
@@ -361,6 +409,7 @@
     color: #fff;
     background: var(--accent-subtle);
     border-color: rgba(255, 51, 68, 0.4);
+    transform: translateY(-1px);
   }
 
   /* Chat Input */
@@ -394,18 +443,27 @@
     background: var(--accent-gradient);
     border: none;
     border-radius: 12px;
-    width: 48px;
-    height: 48px;
+    padding: 0.75rem 1.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 700;
     cursor: pointer;
     box-shadow: 0 0 15px var(--accent-glow);
-    transition: transform 0.15s ease;
+    transition: all 0.15s ease;
+    gap: 0.4rem;
   }
 
-  .send-btn:hover { transform: scale(1.04); }
+  .send-btn:hover {
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 0 20px rgba(255, 51, 68, 0.5);
+  }
+  .send-btn:active {
+    transform: translateY(1px);
+  }
 
   /* Chat Sidebar */
   .chat-sidebar {
@@ -521,6 +579,10 @@
     padding: 0.65rem 0.85rem;
     color: #fff;
     font-family: var(--font-mono);
+    outline: none;
+  }
+  .form-group input:focus {
+    border-color: var(--accent);
   }
 
   .calc-result {
@@ -541,6 +603,11 @@
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--border);
     border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+  .follower-row:hover {
+    border-color: var(--border-bright);
+    background: rgba(255, 255, 255, 0.05);
   }
   .follower-profile {
     display: flex;
@@ -553,20 +620,48 @@
     border-radius: 50%;
     object-fit: cover;
   }
+
   .btn-follow {
-    padding: 0.45rem 1rem;
+    padding: 0.45rem 1.1rem;
     border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.82rem;
+    font-weight: 700;
     cursor: pointer;
     border: 1px solid var(--border);
     background: rgba(255, 255, 255, 0.06);
     color: #fff;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .btn-follow:hover {
+    transform: scale(1.03);
+    border-color: rgba(255, 255, 255, 0.25);
   }
   .btn-follow.active {
     background: var(--accent-gradient);
     border-color: transparent;
+    box-shadow: 0 0 10px var(--accent-glow);
+  }
+
+  .interactive-btn {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: all 0.2s;
+  }
+  .interactive-btn:hover {
+    color: #fff;
+    border-color: var(--accent);
   }
   </style>
 </head>
@@ -641,7 +736,7 @@
 
         <form id="chat-form" class="chat-input-bar">
           <input id="chat-input" type="text" placeholder="Ask ApexMoto about roads, telemetry, physics, or visuals..." autocomplete="off" />
-          <button type="submit" class="send-btn">
+          <button type="submit" class="send-btn" style="width:48px; padding:0;">
             <span class="material-symbols-outlined">send</span>
           </button>
         </form>
@@ -672,8 +767,19 @@
   <!-- TAB 2: TOUR PLANNING -->
   <section id="tab-routes" class="tab-pane">
     <div class="section-header">
-      <h2><span class="material-symbols-outlined" style="color:var(--accent);">map</span> Tour Planning & Route Catalog</h2>
-      <p>Curated motorcycle twisties scored for curve density, surface condition, and elevation gain.</p>
+      <div>
+        <h2><span class="material-symbols-outlined" style="color:var(--accent);">map</span> Tour Planning & Route Catalog</h2>
+        <p>Curated motorcycle twisties scored for curve density, surface condition, and elevation gain.</p>
+      </div>
+      <div class="filter-bar">
+        <input id="route-search-filter" type="text" placeholder="Search region or name..." oninput="filterRoutes()" />
+        <select id="route-twistiness-filter" onchange="filterRoutes()">
+          <option value="0">All Twistiness</option>
+          <option value="8">8+ (High Technical)</option>
+          <option value="9">9+ (Extreme Twisties)</option>
+          <option value="10">10 (Pilgrimage Level)</option>
+        </select>
+      </div>
     </div>
     <div id="routes-grid" class="card-grid"></div>
   </section>
@@ -681,8 +787,13 @@
   <!-- TAB 3: CREW TRACKING -->
   <section id="tab-crew" class="tab-pane">
     <div class="section-header">
-      <h2><span class="material-symbols-outlined" style="color:var(--green-accent);">radar</span> Live Convoy & Crew Radar</h2>
-      <p>Real-time telemetry, speeds, battery reserves, and current mountain corridors.</p>
+      <div>
+        <h2><span class="material-symbols-outlined" style="color:var(--green-accent);">radar</span> Live Convoy & Crew Radar</h2>
+        <p>Real-time telemetry, speeds, battery reserves, and current mountain corridors.</p>
+      </div>
+      <button class="interactive-btn" onclick="loadCrew()">
+        <span class="material-symbols-outlined">refresh</span> Refresh Radar
+      </button>
     </div>
     <div id="crew-grid" class="card-grid"></div>
   </section>
@@ -690,26 +801,28 @@
   <!-- TAB 4: WEATHER & PHYSICS -->
   <section id="tab-physics" class="tab-pane">
     <div class="section-header">
-      <h2><span class="material-symbols-outlined" style="color:var(--cyan-accent);">speed</span> Lean Angle Physics & Weather Advisory</h2>
-      <p>Remote Agent Engine Code Sandbox calculations: &theta; = arctan(v&sup2; / (r &middot; g)).</p>
+      <div>
+        <h2><span class="material-symbols-outlined" style="color:var(--cyan-accent);">speed</span> Lean Angle Physics & Weather Advisory</h2>
+        <p>Remote Agent Engine Code Sandbox calculations: &theta; = arctan(v&sup2; / (r &middot; g)).</p>
+      </div>
     </div>
     <div class="calc-box">
       <div class="form-row">
         <div class="form-group">
-          <label>Target Road</label>
+          <label>Target Mountain Pass / Road</label>
           <input id="calc-road" type="text" value="Mulholland Highway Snake" />
         </div>
         <div class="form-group">
           <label>Speed (mph)</label>
-          <input id="calc-speed" type="number" value="45" />
+          <input id="calc-speed" type="number" value="45" step="1" min="10" max="150" />
         </div>
       </div>
       <div class="form-group">
         <label>Corner Radius (feet)</label>
-        <input id="calc-radius" type="number" value="150" />
+        <input id="calc-radius" type="number" value="150" step="10" min="20" max="1000" />
       </div>
-      <button class="send-btn" style="width:100%; border-radius:8px; font-weight:700;" onclick="computePhysics()">
-        Compute Telemetry & Pavement Grip
+      <button class="send-btn" style="width:100%; border-radius:10px; font-weight:700;" onclick="computePhysics()">
+        <span class="material-symbols-outlined">calculate</span> Compute Telemetry & Pavement Grip
       </button>
       <div id="physics-result" class="calc-result" style="display:none;"></div>
     </div>
@@ -718,8 +831,13 @@
   <!-- TAB 5: GALLERY -->
   <section id="tab-gallery" class="tab-pane">
     <div class="section-header">
-      <h2><span class="material-symbols-outlined" style="color:var(--accent);">perm_media</span> Ride Visuals & Omni Video Gallery</h2>
-      <p>High-resolution posters and cinematic drone reels generated with Gemini and Google Omni.</p>
+      <div>
+        <h2><span class="material-symbols-outlined" style="color:var(--accent);">perm_media</span> Ride Visuals & Omni Video Gallery</h2>
+        <p>High-resolution posters and cinematic drone reels generated with Gemini and Google Omni.</p>
+      </div>
+      <button class="interactive-btn" onclick="loadGallery()">
+        <span class="material-symbols-outlined">refresh</span> Reload Visuals
+      </button>
     </div>
     <div id="gallery-grid" class="card-grid"></div>
   </section>
@@ -727,8 +845,10 @@
   <!-- TAB 6: BLOG -->
   <section id="tab-blog" class="tab-pane">
     <div class="section-header">
-      <h2><span class="material-symbols-outlined" style="color:#f59e0b;">menu_book</span> Apex Stories & Engineering Blog</h2>
-      <p>Riding technique, tire compound science, and high-altitude mountain dispatches.</p>
+      <div>
+        <h2><span class="material-symbols-outlined" style="color:#f59e0b;">menu_book</span> Apex Stories & Engineering Blog</h2>
+        <p>Riding technique, trail braking physics, and high-altitude mountain dispatches.</p>
+      </div>
     </div>
     <div id="blog-grid" class="card-grid"></div>
   </section>
@@ -736,14 +856,21 @@
   <!-- TAB 7: FOLLOWERS -->
   <section id="tab-followers" class="tab-pane">
     <div class="section-header">
-      <h2><span class="material-symbols-outlined" style="color:var(--cyan-accent);">group</span> Rider Network & Followers</h2>
-      <p>Connect with canyon carvers and trackday companions.</p>
+      <div>
+        <h2><span class="material-symbols-outlined" style="color:var(--cyan-accent);">group</span> Rider Network & Followers</h2>
+        <p>Connect with canyon carvers and trackday companions.</p>
+      </div>
+      <div id="followers-count-badge" class="tag accent">4 Connected Riders</div>
     </div>
     <div id="followers-list" style="display:flex; flex-direction:column; gap:0.75rem; max-width:650px;"></div>
   </section>
 </main>
 
 <script>
+// State
+let allRoutes = [];
+let allFollowers = [];
+
 // Tab Switching
 function switchTab(tabId) {
   document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
@@ -901,10 +1028,33 @@ window.addEventListener("DOMContentLoaded", () => {
 async function loadRoutes() {
   const grid = document.getElementById("routes-grid");
   grid.innerHTML = "Loading routes...";
-  const res = await fetch("/api/routes");
-  const data = await res.json();
+  try {
+    const res = await fetch("/api/routes");
+    allRoutes = await res.json();
+    filterRoutes();
+  } catch (e) {
+    grid.innerHTML = "Failed to load routes: " + e.message;
+  }
+}
+
+function filterRoutes() {
+  const query = (document.getElementById("route-search-filter")?.value || "").toLowerCase();
+  const minTwist = parseInt(document.getElementById("route-twistiness-filter")?.value || "0", 10);
+  const grid = document.getElementById("routes-grid");
   grid.innerHTML = "";
-  data.forEach(r => {
+
+  const filtered = allRoutes.filter(r => {
+    const matchQuery = !query || r.name.toLowerCase().includes(query) || r.region.toLowerCase().includes(query);
+    const matchTwist = r.twistiness_rating >= minTwist;
+    return matchQuery && matchTwist;
+  });
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div style="color:var(--text-muted); padding:1rem;">No routes found matching filter criteria.</div>`;
+    return;
+  }
+
+  filtered.forEach(r => {
     const card = el("div", "feature-card");
     card.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -917,6 +1067,11 @@ async function loadRoutes() {
         <b>Pavement:</b> ${r.surface_condition}<br/>
         <b>Elevation:</b> +${r.elevation_gain_ft} ft | <b>Bikes:</b> ${r.recommended_bike_type}
       </div>
+      <div style="margin-top:auto; display:flex; gap:0.5rem;">
+        <button class="interactive-btn" onclick="sendQuick('Tell me more about riding ${r.name.replace(/'/g, "\\'")}')">
+          <span class="material-symbols-outlined" style="font-size:16px;">chat</span> Plan with Agent
+        </button>
+      </div>
     `;
     grid.appendChild(card);
   });
@@ -925,110 +1080,156 @@ async function loadRoutes() {
 async function loadCrew() {
   const grid = document.getElementById("crew-grid");
   grid.innerHTML = "Querying live telemetry...";
-  const res = await fetch("/api/crew");
-  const data = await res.json();
-  grid.innerHTML = "";
-  data.forEach(c => {
-    const card = el("div", "feature-card");
-    card.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center;">
-        <h3 style="font-size:1.05rem; font-weight:700;">${c.name}</h3>
-        <span class="tag" style="background:rgba(16,185,129,0.15); color:var(--green-accent);">${c.status}</span>
-      </div>
-      <div style="font-size:0.82rem; color:var(--text-secondary); font-family:var(--font-mono);">${c.bike}</div>
-      <div style="font-size:0.88rem; margin:0.4rem 0;">📍 <b>${c.current_location}</b></div>
-      <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">
-        <span>Speed: <b>${c.speed_mph} mph</b></span>
-        <span>Battery: <b>${c.battery_pct}%</b></span>
-        <span>Heading: <b>${c.heading}</b></span>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
+  try {
+    const res = await fetch("/api/crew");
+    const data = await res.json();
+    grid.innerHTML = "";
+    data.forEach(c => {
+      const card = el("div", "feature-card");
+      card.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="font-size:1.05rem; font-weight:700;">${c.name}</h3>
+          <span class="tag" style="background:rgba(16,185,129,0.15); color:var(--green-accent);">${c.status}</span>
+        </div>
+        <div style="font-size:0.82rem; color:var(--text-secondary); font-family:var(--font-mono);">${c.bike}</div>
+        <div style="font-size:0.88rem; margin:0.4rem 0;">📍 <b>${c.current_location}</b></div>
+        <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">
+          <span>Speed: <b>${c.speed_mph} mph</b></span>
+          <span>Battery: <b>${c.battery_pct}%</b></span>
+          <span>Heading: <b>${c.heading}</b></span>
+        </div>
+        <div style="margin-top:0.4rem;">
+          <button class="interactive-btn" onclick="sendQuick('Send message to convoy: catch up with ${c.name}')">
+            <span class="material-symbols-outlined" style="font-size:16px;">near_me</span> Ping on Radio
+          </button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  } catch (e) {
+    grid.innerHTML = "Failed to load crew: " + e.message;
+  }
 }
 
 async function computePhysics() {
-  const road = document.getElementById("calc-road").value;
-  const speed = document.getElementById("calc-speed").value;
-  const radius = document.getElementById("calc-radius").value;
+  const road = document.getElementById("calc-road").value || "Mulholland Highway";
+  const speed = document.getElementById("calc-speed").value || "45";
+  const radius = document.getElementById("calc-radius").value || "150";
   const out = document.getElementById("physics-result");
   out.style.display = "block";
   out.innerHTML = "Computing lean angle physics in sandbox...";
   
-  const res = await fetch(`/api/weather-physics?road=${encodeURIComponent(road)}&speed_mph=${speed}&radius_ft=${radius}`);
-  const d = await res.json();
-  out.innerHTML = `
-    <div style="color:var(--cyan-accent); font-weight:700; margin-bottom:0.4rem;">🏁 Physics Sandbox Result:</div>
-    <div>${d.safety_advisory}</div>
-    <div style="margin-top:0.6rem; font-size:0.84rem; color:var(--text-secondary);">
-      Temperature: <b>${d.temperature_f}°F</b> | Wind: <b>${d.wind_mph} mph</b> | Pavement: <b>${d.pavement_condition}</b>
-    </div>
-  `;
+  try {
+    const res = await fetch(`/api/weather-physics?road=${encodeURIComponent(road)}&speed_mph=${speed}&radius_ft=${radius}`);
+    const d = await res.json();
+    out.innerHTML = `
+      <div style="color:var(--cyan-accent); font-weight:700; margin-bottom:0.4rem;">🏁 Physics Sandbox Result:</div>
+      <div>${d.safety_advisory}</div>
+      <div style="margin-top:0.6rem; font-size:0.84rem; color:var(--text-secondary);">
+        Temperature: <b>${d.temperature_f}°F</b> | Wind: <b>${d.wind_mph} mph</b> | Pavement: <b>${d.pavement_condition}</b>
+      </div>
+    `;
+  } catch (e) {
+    out.innerHTML = `<span style="color:#ef4444;">Calculation failed: ${e.message}</span>`;
+  }
 }
 
 async function loadGallery() {
   const grid = document.getElementById("gallery-grid");
   grid.innerHTML = "Loading gallery...";
-  const res = await fetch("/api/gallery");
-  const data = await res.json();
-  grid.innerHTML = "";
-  data.forEach(item => {
-    const card = el("div", "feature-card");
-    if (item.type === 'video') {
-      card.innerHTML = `
-        <video controls src="${item.url}" poster="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop&q=80"></video>
-        <h4 style="font-size:0.95rem; font-weight:700;">${item.title}</h4>
-        <p style="font-size:0.82rem; color:var(--text-secondary);">${item.caption}</p>
-        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
-          <span>By ${item.creator}</span>
-          <span>❤️ ${item.likes} likes</span>
-        </div>
-      `;
-    } else {
-      card.innerHTML = `
-        <img src="${item.url}" alt="${item.title}" />
-        <h4 style="font-size:0.95rem; font-weight:700;">${item.title}</h4>
-        <p style="font-size:0.82rem; color:var(--text-secondary);">${item.caption}</p>
-        <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
-          <span>By ${item.creator}</span>
-          <span>❤️ ${item.likes} likes</span>
-        </div>
-      `;
-    }
-    grid.appendChild(card);
-  });
+  try {
+    const res = await fetch("/api/gallery");
+    const data = await res.json();
+    grid.innerHTML = "";
+    data.forEach(item => {
+      const card = el("div", "feature-card");
+      if (item.type === 'video') {
+        card.innerHTML = `
+          <video controls src="${item.url}" poster="https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=800&auto=format&fit=crop&q=80"></video>
+          <h4 style="font-size:0.95rem; font-weight:700;">${item.title}</h4>
+          <p style="font-size:0.82rem; color:var(--text-secondary);">${item.caption}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+            <span>By ${item.creator}</span>
+            <button class="interactive-btn" onclick="likeGallery('${item.id}', this, ${item.likes})">
+              ❤️ <span class="like-num">${item.likes}</span>
+            </button>
+          </div>
+        `;
+      } else {
+        card.innerHTML = `
+          <img src="${item.url}" alt="${item.title}" />
+          <h4 style="font-size:0.95rem; font-weight:700;">${item.title}</h4>
+          <p style="font-size:0.82rem; color:var(--text-secondary);">${item.caption}</p>
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+            <span>By ${item.creator}</span>
+            <button class="interactive-btn" onclick="likeGallery('${item.id}', this, ${item.likes})">
+              ❤️ <span class="like-num">${item.likes}</span>
+            </button>
+          </div>
+        `;
+      }
+      grid.appendChild(card);
+    });
+  } catch (e) {
+    grid.innerHTML = "Failed to load gallery: " + e.message;
+  }
+}
+
+function likeGallery(id, btn, count) {
+  const span = btn.querySelector('.like-num');
+  if (span) {
+    const current = parseInt(span.textContent, 10);
+    span.textContent = current + 1;
+    btn.style.borderColor = 'var(--accent)';
+  }
 }
 
 async function loadBlog() {
   const grid = document.getElementById("blog-grid");
   grid.innerHTML = "Loading blog articles...";
-  const res = await fetch("/api/blog");
-  const data = await res.json();
-  grid.innerHTML = "";
-  data.forEach(b => {
-    const card = el("div", "feature-card");
-    card.innerHTML = `
-      <img src="${b.image_url}" alt="${b.title}" />
-      <div style="display:flex; gap:0.4rem;">
-        ${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-      </div>
-      <h3 style="font-size:1.05rem; font-weight:700;">${b.title}</h3>
-      <p style="font-size:0.88rem; color:var(--text-secondary);">${b.summary}</p>
-      <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono); margin-top:auto;">
-        By ${b.author} • ${b.date} • ${b.read_time}
-      </div>
-    `;
-    grid.appendChild(card);
-  });
+  try {
+    const res = await fetch("/api/blog");
+    const data = await res.json();
+    grid.innerHTML = "";
+    data.forEach(b => {
+      const card = el("div", "feature-card");
+      card.innerHTML = `
+        <img src="${b.image_url}" alt="${b.title}" />
+        <div style="display:flex; gap:0.4rem;">
+          ${b.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+        </div>
+        <h3 style="font-size:1.05rem; font-weight:700;">${b.title}</h3>
+        <p style="font-size:0.88rem; color:var(--text-secondary);">${b.summary}</p>
+        <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono); margin-top:auto;">
+          By ${b.author} • ${b.date} • ${b.read_time}
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  } catch (e) {
+    grid.innerHTML = "Failed to load blog: " + e.message;
+  }
 }
 
 async function loadFollowers() {
   const list = document.getElementById("followers-list");
   list.innerHTML = "Loading rider network...";
-  const res = await fetch("/api/followers");
-  const data = await res.json();
+  try {
+    const res = await fetch("/api/followers");
+    allFollowers = await res.json();
+    renderFollowers();
+  } catch (e) {
+    list.innerHTML = "Failed to load followers: " + e.message;
+  }
+}
+
+function renderFollowers() {
+  const list = document.getElementById("followers-list");
   list.innerHTML = "";
-  data.forEach(f => {
+  let followingCount = 0;
+
+  allFollowers.forEach(f => {
+    if (f.is_following) followingCount++;
     const row = el("div", "follower-row");
     row.innerHTML = `
       <div class="follower-profile">
@@ -1036,25 +1237,44 @@ async function loadFollowers() {
         <div>
           <div style="font-weight:700; font-size:0.95rem;">${f.username} <span style="font-weight:400; color:var(--text-muted); font-size:0.8rem;">${f.handle}</span></div>
           <div style="font-size:0.8rem; color:var(--text-secondary);">${f.bike} • ${f.riding_style}</div>
+          <div style="font-size:0.74rem; color:var(--text-muted); font-family:var(--font-mono); margin-top:2px;">
+            <span class="follower-count">${f.followers_count}</span> followers
+          </div>
         </div>
       </div>
-      <button class="btn-follow ${f.is_following ? 'active' : ''}" onclick="toggleFollow('${f.id}', this)">
-        ${f.is_following ? 'Following' : 'Follow'}
+      <button id="follow-btn-${f.id}" class="btn-follow ${f.is_following ? 'active' : ''}" onclick="toggleFollow('${f.id}')">
+        <span class="material-symbols-outlined" style="font-size:16px;">${f.is_following ? 'check' : 'person_add'}</span>
+        <span>${f.is_following ? 'Following' : 'Follow'}</span>
       </button>
     `;
     list.appendChild(row);
   });
+
+  const badge = document.getElementById("followers-count-badge");
+  if (badge) badge.textContent = `${followingCount} Following / ${allFollowers.length} Riders`;
 }
 
-async function toggleFollow(id, btn) {
-  const res = await fetch(`/api/followers/${id}/toggle`, { method: "POST" });
-  const d = await res.json();
-  if (d.is_following) {
-    btn.classList.add('active');
-    btn.textContent = 'Following';
-  } else {
-    btn.classList.remove('active');
-    btn.textContent = 'Follow';
+async function toggleFollow(id) {
+  const btn = document.getElementById(`follow-btn-${id}`);
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await fetch(`/api/followers/${id}/toggle`, { method: "POST" });
+    const d = await res.json();
+    const target = allFollowers.find(f => f.id === id);
+    if (target) {
+      target.is_following = d.is_following;
+      if (d.is_following) {
+        target.followers_count += 1;
+      } else {
+        target.followers_count = Math.max(0, target.followers_count - 1);
+      }
+    }
+    renderFollowers();
+  } catch (e) {
+    alert("Follow toggle failed: " + e.message);
+  } finally {
+    if (btn) btn.disabled = false;
   }
 }
 </script>
